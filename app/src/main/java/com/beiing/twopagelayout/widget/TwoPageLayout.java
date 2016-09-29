@@ -146,6 +146,7 @@ public class TwoPageLayout extends LinearLayout {
                     } else {
                         //向下
                         if(mScroller.getFinalY() != 0){
+                            //这是出于第一页和第二页显示连接处
                             if(getScrollY() + mMoveY > 0){
                                 smoothScrollBy(0, mMoveY);
                                 return true;
@@ -164,6 +165,7 @@ public class TwoPageLayout extends LinearLayout {
                     } else {
                         //向上
                         if(mScroller.getFinalY() < scrollView1.getHeight()){
+                            //这是出于第一页和第二页显示连接处
                             smoothScrollBy(0, mMoveY);
                             return true;
                         } else {
