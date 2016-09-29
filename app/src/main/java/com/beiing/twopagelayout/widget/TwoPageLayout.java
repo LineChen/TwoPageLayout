@@ -10,7 +10,7 @@ import android.widget.Scroller;
 
 /**
  * Created by chenliu on 2016/9/28.<br/>
- * 描述：淘宝详情页，上拉查看更多
+ * 描述：淘宝详情页
  * </br>
  */
 public class TwoPageLayout extends LinearLayout {
@@ -216,9 +216,6 @@ public class TwoPageLayout extends LinearLayout {
         return super.dispatchTouchEvent(ev);
     }
 
-
-
-
     @Override
     public void computeScroll() {
         super.computeScroll();
@@ -230,7 +227,6 @@ public class TwoPageLayout extends LinearLayout {
             postInvalidate();
         }
     }
-
 
     //调用此方法滚动到目标位置
     public void smoothScrollTo(int fx, int fy) {
@@ -245,6 +241,4 @@ public class TwoPageLayout extends LinearLayout {
         mScroller.startScroll(mScroller.getFinalX(), mScroller.getFinalY(), dx, dy, Math.max(300, Math.abs(dy)));
         invalidate();//这里必须调用invalidate()才能保证computeScroll()会被调用，否则不一定会刷新界面，看不到滚动效果
     }
-
-
 }
