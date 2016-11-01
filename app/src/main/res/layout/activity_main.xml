@@ -10,40 +10,40 @@
 
         <com.beiing.twopagelayout.widget.ScrollEndScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:scaleType="centerCrop"
-                    android:layout_height="200dp"
-                    android:background="@mipmap/m1"
-                    />
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:layout_height="200dp"-->
+                    <!--android:background="@mipmap/m1"-->
+                    <!--/>-->
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:scaleType="centerCrop"
-                    android:layout_height="200dp"
-                    android:background="@mipmap/m2"
-                    />
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:layout_height="200dp"-->
+                    <!--android:background="@mipmap/m2"-->
+                    <!--/>-->
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:scaleType="centerCrop"
-                    android:layout_height="200dp"
-                    android:background="@mipmap/m3"
-                    />
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:layout_height="200dp"-->
+                    <!--android:background="@mipmap/m3"-->
+                    <!--/>-->
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:scaleType="centerCrop"
-                    android:layout_height="200dp"
-                    android:background="@mipmap/m4"
-                    />
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:layout_height="200dp"-->
+                    <!--android:background="@mipmap/m4"-->
+                    <!--/>-->
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -59,13 +59,13 @@
                     android:background="@mipmap/m9"
                     />
 
-                <TextView
+                <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="30dp"
-                    android:background="#2888"
                     android:gravity="center"
                     android:text="继续拖动，查看更多美女"
+                    android:onClick="onClick"
                     />
 
             </LinearLayout>
@@ -80,6 +80,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="30dp"
+                    android:gravity="center"
+                    android:text="第二页顶部"
+                    android:onClick="onClick"
+                    />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:scaleType="centerCrop"

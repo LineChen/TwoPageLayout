@@ -3,8 +3,10 @@ package com.beiing.twopagelayout.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
@@ -28,6 +30,13 @@ public class TwoPageLayout extends LinearLayout {
      * scrollView2是否滚动到顶部
      */
     private boolean isToTop;
+
+
+    /**
+     * 第一页是否大于一屏
+     */
+    private boolean isOverScreen;
+
 
     private Scroller mScroller; //滑动控制器
 
@@ -66,6 +75,8 @@ public class TwoPageLayout extends LinearLayout {
         if (child2 != null) {
             child2.measure(widthMeasureSpec, heightMeasureSpec);
         }
+
+        isOverScreen = !(scrollView1.getMeasuredHeight() <= MeasureSpec.getSize(heightMeasureSpec));
     }
 
     @Override
@@ -75,6 +86,9 @@ public class TwoPageLayout extends LinearLayout {
             View child1 = getChildAt(0);
             if (child1 instanceof ScrollEndScrollView){
                 scrollView1 = (ScrollEndScrollView) child1;
+                //强制设置第一页为MATCH_PARENT，不然当小于屏幕高度时，第二页会显示出来
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                scrollView1.setLayoutParams(layoutParams);
             }
             View child2 = getChildAt(1);
             if(child2 instanceof ScrollEndScrollView){
@@ -121,12 +135,79 @@ public class TwoPageLayout extends LinearLayout {
     };
 
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        int yPosition = (int) ev.getY();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                mScroller.abortAnimation();
+                mLastY = yPosition;
+                mMoveY = 0;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                mMoveY = (mLastY - yPosition);
+                mLastY = yPosition;
+
+                if(!isOverScreen && pageIndex == 0){
+//                    if(mMoveY < 0){
+//                        // 向下
+//                        isToTop = true;
+//                        isToBotttom = false;
+//                    } else if(mMoveY > 0){
+//                        isToTop = false;
+//                        isToBotttom = true;
+//                    }
+
+                    isToBotttom = true;
+                }
+
+                if(isToBotttom){
+                    if(mMoveY > 0){
+                        //向上
+                        smoothScrollBy(0, mMoveY);
+                        return true;
+                    } else {
+                        //向下
+                        if(mScroller.getFinalY() != 0){
+                            //这是出于第一页和第二页显示连接处
+                            if(getScrollY() + mMoveY > 0){
+                                smoothScrollBy(0, mMoveY);
+                                return true;
+                            } else{
+                                smoothScrollTo(0, 0);
+                            }
+                        }
+                    }
+                }
+                else if(isToTop){
+                    if(mMoveY < 0){
+                        //向下
+                        smoothScrollBy(0, mMoveY);
+                        return true;
+                    } else {
+                        //向上
+                        if(mScroller.getFinalY() < scrollView1.getHeight()){
+                            //这是出于第一页和第二页显示连接处
+                            smoothScrollBy(0, mMoveY);
+                            return true;
+                        } else {
+                            smoothScrollTo(0, scrollView1.getHeight());
+                        }
+                    }
+                }
+                break;
+        }
+
+        return super.onInterceptTouchEvent(ev);
+    }
+
     /**
      * @param ev
      * @return
      */
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
+    public boolean onTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
         int yPosition = (int) ev.getY();
         switch (action) {
@@ -152,7 +233,6 @@ public class TwoPageLayout extends LinearLayout {
                                 return true;
                             } else{
                                 smoothScrollTo(0, 0);
-                                return super.dispatchTouchEvent(ev);
                             }
                         }
                     }
@@ -170,7 +250,6 @@ public class TwoPageLayout extends LinearLayout {
                             return true;
                         } else {
                             smoothScrollTo(0, scrollView1.getHeight());
-                            return super.dispatchTouchEvent(ev);
                         }
                     }
                 }
@@ -215,7 +294,7 @@ public class TwoPageLayout extends LinearLayout {
                 break;
         }
 
-        return super.dispatchTouchEvent(ev);
+        return super.onTouchEvent(ev);
     }
 
     @Override
