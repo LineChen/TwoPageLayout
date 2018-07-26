@@ -76,7 +76,7 @@ public class TwoPageLayout extends LinearLayout {
             child2.measure(widthMeasureSpec, heightMeasureSpec);
         }
 
-        isOverScreen = !(scrollView1.getMeasuredHeight() <= MeasureSpec.getSize(heightMeasureSpec));
+        isOverScreen = !(scrollView1.getChildAt(0).getMeasuredHeight() <= MeasureSpec.getSize(heightMeasureSpec));
     }
 
     @Override
